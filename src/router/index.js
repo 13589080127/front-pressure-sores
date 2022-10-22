@@ -14,6 +14,7 @@ const index = () => import('@/page/index/index')
 const channel = () => import('@/page/index/children/channel')
 const detail = () => import('@/page/detail/detail')
 const search = () => import('@/page/search/search')
+const sign = () => import('@/page/sign/sign')
 
 export default new Router({
     routes: [
@@ -35,6 +36,11 @@ export default new Router({
                             component: channel
                         }
                     ]
+                },
+                {
+                  name: 'sign',
+                  path: '/sign',
+                  component: sign
                 },
                 // detail页面
                 {
