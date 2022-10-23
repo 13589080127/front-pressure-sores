@@ -5,6 +5,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import 'amfe-flexible'
 
 // css
 import '@/assets/css/reset.css'

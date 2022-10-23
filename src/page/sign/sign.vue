@@ -138,7 +138,7 @@ export default {
 .card {
   position: absolute;
   top: 221px;
-  width: 351px;
+  width: 300px;
   height: 355px;
   box-shadow: 4px 3px 4px 0px rgba(1, 31, 30, 0.23);
   background-color: #fff;
@@ -217,7 +217,7 @@ export default {
 
 .input-group{
   display:flex;
-  width:327px;
+  width:250px;
 padding-bottom:10px;
 border-bottom:2px solid rgba(236 236 236 .2);
 }
@@ -229,13 +229,14 @@ border-bottom:2px solid rgba(236 236 236 .2);
   margin-right:10px;
   span{
     height:27px;
+    width:40px;
     line-height:27px;
   }
 }
 
 .input{
   background-color:teal;
-  width:250px;
+  width:190px;
   height:27px;
 font-size:16px;
 padding-left:18px;
