@@ -1,88 +1,88 @@
 <template>
   <div id="sign">
-
-    <!--pages/sign/index.wxml-->
     <img class="logo" src="@/assets/logo-white.png" />
     <img class="text_01" src="@/assets/text_01_white.png" />
     <img class="people" src="@/assets/people_sign.png" />
-    <img class="text_02" src="@/assets/text_02_white.png" />
     <div class="card">
       <div class="sign_title">
         <div class="border"></div>
-        <div class="text-group">
-          <span class="title">活动登记信息</span>
-          <span class="remark">您填写的信息仅用于参赛登记，不会公开</span>
+        <span class="title">活动登记信息</span>
+        <span class="remark">您填写的信息仅用于参赛登记，不会公开</span>
+      </div>
+      <Form class="sign_form" label-width="62px" @submit="onSubmit" :show-error-message=false>
+        <Field class="input" label-class="input_label" v-model="username" name="username" label="姓名" placeholder="请输入姓名"
+          required :rules="[{ required: true, message: '请输入姓名' }]" />
+        <Field class="input" v-model="mobile" type="tel" name="mobile" label="电话" placeholder="请输入电话" required
+          :rules="[{ required: true, message: '请输入电话' }]" />
+        <Field class="input" readonly required clickable name="province" label="省份" :value="province"
+          :rules="[{ required: true, message: '请选择省份' }]" placeholder="选择省份" @click="provinceShowPicker = true" />
+        <Popup v-model="provinceShowPicker" round position="bottom">
+          <Picker show-toolbar :columns="provinceColumns" @cancel="provinceShowPicker = false"
+            @confirm="onProvinceConfirm" />
+        </Popup>
+        <Field class="input" readonly required clickable name="city" label="城市" :value="city" placeholder="选择城市"
+          :rules="[{ required: true, message: '请选择城市' }]" @click="cityShowPicker = true" />
+        <Popup v-model="cityShowPicker" round position="bottom">
+          <Picker show-toolbar :columns="cityColumns" @cancel="cityShowPicker = false" @confirm="onCityConfirm" />
+        </Popup>
+        <Field class="input" v-model="hospital" type="hospital" name="hospital" label="医院" placeholder="请输入医院名称（全称）"
+          required :rules="[{ required: true, message: '请输入医院名称（全称）' }]" />
+        <Field class="input sms" name="sms" label-width="103px" v-model="sms" center clearable label="短信验证码"
+          :rules="[{ required: true, message: '请输入医院名称（全称）' }]" placeholder="请输入短信验证码">
+          <template #button>
+            <Button size="small" type="primary" @click="sendSms">发送验证码</Button>
+          </template>
+        </Field>
+        <div id="buttonView" class="buttonView">
+          <img class="btn" src="@/assets/btn-home.png" />
+          <button class="link" form-type="submit" native-type="submit">提交登记</button>
         </div>
 
-        <form slot='mid' class="sign_form" @submit.prevent="signFormData">
-          <div class="input-group">
-            <div class="label">
-              <span>姓名</span><span style="color: #e34d59"> *</span>
-            </div>
-            <input class='input' label="姓名" type="search" placeholder="请输入姓名" v-model.trim='name'>
-          </div>
 
-
-          <div class="input-group">
-            <div class="label">
-              <span>电话</span><span style="color: #e34d59"> *</span>
-            </div>
-            <!-- <input class='input' label="姓名" type="search" placeholder="请输入姓名" v-model.trim='name'> -->
-            <input class='input' label="电话" type="search" placeholder="请输入电话" v-model.trim='mobile'>
-
-          </div>
-
-          <div class="input-group">
-            <div class="label">
-              <span>省份</span><span style="color: #e34d59"> *</span>
-            </div>
-            <!-- <input class='input' label="姓名" type="search" placeholder="请输入姓名" v-model.trim='name'> -->
-            <input class='input' label="省份" type="search" placeholder="请输入省份" v-model.trim='province'>
-
-          </div>
-
-          <div class="input-group">
-            <div class="label">
-              <span>城市</span><span style="color: #e34d59"> *</span>
-            </div>
-            <input class='input' label="城市" type="search" placeholder="请输入城市" v-model.trim='city'>
-
-          </div>
-
-          <div class="input-group">
-            <div class="label">
-              <span>医院</span><span style="color: #e34d59"> *</span>
-            </div>
-            <input class='input' label="医院" type="search" placeholder="输入医院名称（全称）" v-model.trim='hospital'>
-
-          </div>
-
-
-          <div id="buttonView" class="buttonView">
-            <img class="btn" src="@/assets/btn-home.png" />
-            <button class="link" @click.stop="signFormData">提交登记</button>
-          </div>
-        </form>
-      </div>
+      </Form>
     </div>
+    <img class="text_02" src="@/assets/text_02_white.png" />
   </div>
 </template>
 <script>
+import { Form, Button, Field, Picker, Popup } from 'vant'
+import 'vant/lib/index.css'
+
 export default {
+  name: 'sign',
+  components: { Button, Form, Field, Picker, Popup },
   data() {
     return {
-      name: '',
+      username: '',
       mobile: '',
       province: '',
       city: '',
-      hospital: ''
+      hospital: '',
+      sms: '',
+      provinceShowPicker: false,
+      cityShowPicker: false,
+      provinceColumns: ['杭州', '宁波', '温州', '绍兴'],
+      cityColumns: ['嘉兴', '金华', '衢州']
     }
   },
   watch: {
 
   },
   methods: {
-
+    onProvinceConfirm(value) {
+      this.province = value
+      this.provinceShowPicker = false
+    },
+    onCityConfirm(value) {
+      this.city = value
+      this.cityShowPicker = false
+    },
+    onSubmit(values) {
+      console.log('submit', values)
+    },
+    sendSms() {
+      console.log(this.mobile, '验证码')
+    }
   },
   mounted() {
 
@@ -114,16 +114,16 @@ export default {
   position: absolute;
   top: 27px;
   right: -7px;
-  width: 212px;
-  height: 233px;
+  width: 207px;
+	height: 224px;
 }
 
 .text_01 {
   position: absolute;
   left: 32px;
   top: 121px;
-  width: 131px;
-  height: 71px;
+  width: 132px;
+	height: 72px;
 }
 
 .text_02 {
@@ -131,39 +131,43 @@ export default {
   left: 26px;
   bottom: 25px;
   width: 139px;
-  height: 45px;
+	height: 46px;
 }
 
 
 .card {
   position: absolute;
   top: 221px;
-  width: 300px;
-  height: 355px;
+  width: 352px;
+	height: 407px;
   box-shadow: 4px 3px 4px 0px rgba(1, 31, 30, 0.23);
   background-color: #fff;
   border-radius: 10px;
-  padding: 14px 12px;
+  padding: 20px 15px;
   box-sizing: border-box;
 
 }
-
 .sign_title {
+  position:absolute;
+  top:15px;
+  left:12px;
   display: flex;
   line-height:19px;
-  border-bottom: 2px solid rgb(236, 236, 236, .2);
+  border-bottom: 2px solid rgba(236, 236, 236, .2);
 }
-
-.text-group{
-  display:flex;
-}
-
 .title {
+  width: 100px;
   font-family: SourceHanSansCN-Bold;
   font-size: 16px;
   color: #1eab3c;
-  margin-right:5px;
 }
+
+.remark {
+  font-family: SourceHanSansCN-Medium;
+  font-size: 12px;
+  color: #898989;
+}
+
 
 .border {
   display: inline-block;
@@ -177,26 +181,19 @@ export default {
 
 .sign_form {
   position: absolute;
-  top: 70px;
-}
-
-.remark {
-  font-family: SourceHanSansCN-Medium;
-  font-size: 12px;
-  color: #898989;
-  line-height: 20px;
-  transform: scale(0.9);
+  top: 50px;
+  width: 312px;
 }
 
 .buttonView {
   position: relative;
   text-align: center;
+  margin-top:26px;
 }
 
 .buttonView .btn {
   width: 104px;
   height: 34px;
-
 }
 
 .link {
@@ -235,12 +232,44 @@ border-bottom:2px solid rgba(236 236 236 .2);
 }
 
 .input{
-  background-color:teal;
-  width:190px;
-  height:27px;
-font-size:16px;
-padding-left:18px;
-background-color:#fbfbfb;
+  padding-left:0;
+}
+.input{
+  :global{
+    .van-field__body{
+      background-color:pink;
+    }
+  }
+}
+.input::before{
+  position: absolute;
+    left:35px;
+    bottom:8px;
+    color: #ee0a24;
+    font-size: 0.37333rem;
+    content: '*';
 }
 
+.sms{
+  padding-right:0;
+}
+.sms::before{
+  position: absolute;
+    left:75px;
+    bottom:12px;
+    color: #ee0a24;
+    font-size: 0.37333rem;
+    content: '*';
+}
+
+.input::after{
+  position: absolute;
+  box-sizing: border-box;
+  content: ' ';
+  pointer-events: none;
+  right:0;
+  bottom: 0;
+  left: 0;
+  border-bottom:3px solid rgba(236,236,236,.2);
+}
 </style>
