@@ -4,7 +4,7 @@ import qs from 'qs'
 
 Vue.prototype.$http = axios
 //接口域名
-axios.defaults.baseURL = 'http://data.toutiaojk.com/extend/list/'
+axios.defaults.baseURL = 'http://localhost:8089/'
 // http://192.168.1.1:5000
 // url表示后面拼接的url
 export var request = async (type = 'POST', url = '', data = {}) => {

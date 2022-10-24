@@ -61,10 +61,18 @@ export default {
       sms: '',
       provinceShowPicker: false,
       cityShowPicker: false,
-      provinceColumns: ['杭州', '宁波', '温州', '绍兴'],
-      cityColumns: ['嘉兴', '金华', '衢州']
+      provinceColumns: this.get_province_list().then(res => {
+        if (res.data) {
+          return []
+        } else {
+          return []
+        }
+      }),
+      cityColumns: ['嘉兴', '金华', '衢州'],
+
     }
   },
+
   watch: {
 
   },
@@ -79,6 +87,7 @@ export default {
     },
     onSubmit(values) {
       console.log('submit', values)
+      // this.sign_up()
     },
     sendSms() {
       console.log(this.mobile, '验证码')
